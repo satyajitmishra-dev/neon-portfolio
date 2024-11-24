@@ -1,54 +1,29 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const words = ["Web Developer", "Web Designer", "Frontend Developer"];
-  let wordIndex = 0;
-  let charIndex = 0;
-  let currentWord = '';
-  const typingSpeed = 100;
-  const erasingSpeed = 50;
-  const newWordDelay = 2000;
-
-  function type() {
-      if (charIndex < words[wordIndex].length) {
-          currentWord += words[wordIndex].charAt(charIndex);
-          document.querySelector('.typing-animation').textContent = currentWord;
-          charIndex++;
-          setTimeout(type, typingSpeed);
-      } else {
-          setTimeout(erase, newWordDelay);
-      }
-  }
-
-  function erase() {
-      if (charIndex > 0) {
-          currentWord = currentWord.slice(0, -1);
-          document.querySelector('.typing-animation').textContent = currentWord;
-          charIndex--;
-          setTimeout(erase, erasingSpeed);
-      } else {
-          wordIndex = (wordIndex + 1) % words.length;
-          setTimeout(type, typingSpeed + 1100);
-      }
-  }
-
-  type();
-});
-
-
-
-// Animate progress bars
-const progressBars = document.querySelectorAll('.progress-done');
-
-progressBars.forEach(bar => {
-    setTimeout(() => {
-        bar.style.width = bar.getAttribute('data-done') + '%';
-        bar.style.opacity = 1;
-    }, 500);
-});
-
-// Animate circular skills
-const circles = document.querySelectorAll('.circle');
-
-circles.forEach(circle => {
-    let percent = circle.getAttribute('data-percent');
-    circle.style.setProperty('--percent', percent);
-});
+const menubar = document.querySelector("#menu");
+const Navbar = document.querySelector(".navbar");
+menubar.onclick = () => {
+  menubar.classList.toggle("bx-x");
+  Navbar.classList.toggle("active");
+};
+const section = document.querySelectorAll("section");
+const navlink = document.querySelectorAll("header nav a");
+window.onscroll = () => {
+  section.forEach((sec) => {
+    let top = window.scrollY;
+    let offset = sec.offsetTop - 150;
+    let height = sec.offsetHeight;
+    let id = sec.getAttribute("id");
+    if (top > offset && top < offset + height) {
+      sec.classList.add("start-animation");
+      navlink.forEach((links) => {
+        links.classList.remove("active");
+        document
+          .querySelector("header nav a[href*=" + id + "]")
+          .classList.add("active");
+      });
+    }
+  });
+  var header = document.querySelector(".header");
+  header.classList.toggle("sticky", window.scrollY > 100);
+  menubar.classList.remove("bx-x");
+  Navbar.classList.remove("active");
+};
